@@ -1,1 +1,1 @@
-// YOUR CODE HERE:
+let app = {};
