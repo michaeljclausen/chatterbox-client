@@ -9,6 +9,13 @@ describe('chatterbox', function() {
     });
 
   });
+  
+  describe('escape string', function() {
+    it('should remove a script tag', function() {
+      var maliciousScript = '<script>alert("AHHHHHHH");</script>hi.  mike   ';
+      expect(app.escapeString(maliciousScript)).to.equal('hi.  mike   ');
+    });
+  });
 
   describe('app behavior', function() {
     var ajaxSpy;

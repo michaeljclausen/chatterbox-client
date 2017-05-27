@@ -10,8 +10,10 @@ class App {
   }
   renderMessage(message) {
     //console.log(message);
-    $('#chats').append(`<div class='username'>${message.username}:</div>`);
-    $('#chats').append(`<div class='text'>${message.text}</div>`);
+    let cleanedUser = this.escapeString(message.username);
+    let cleanedText = this.escapeString(message.text);
+    $('#chats').append(`<div class='username'>${cleanedUser}:</div>`);
+    $('#chats').append(`<div class='text'>${cleanedText}</div>`);
   }
   renderRoom(room) {
     this.clearMessages();
@@ -49,23 +51,27 @@ class App {
       // This is the url you should use to communicate with the parse API server.
       url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
       type: 'GET',
-      data: this.messages,
+      data: { limit: 100, order: '-createdAt' },
       contentType: 'application/json',
       success: function (data) {
+        console.log(data);
+        //data = this.escapeString(data);
         let messages = data.results;
         let rooms = {};
         let selectedRoom = $('#roomSelect').find(':selected').text();
         if (!selectedRoom) {
           messages.forEach(message => {
             if (message.hasOwnProperty('roomname')) {
+              // sets unique roomname as key on rooms object
               rooms[message['roomname']] = 1;
             }
           });
           
           for (let room in rooms) {
+            let cleanedRoom = this.escapeString(room);
             $('#roomSelect').append($('<option>', {
-              value: room,
-              text: room
+              value: cleanedRoom,
+              text: cleanedRoom
             }));
           }
         }
@@ -84,6 +90,15 @@ class App {
         console.error('chatterbox: Failed to send message', data);
       }
     });
+  }
+  escapeString(stringToCheck) {
+    console.log(stringToCheck); 
+    var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+    while (SCRIPT_REGEX.test(stringToCheck)) {
+      stringToCheck = stringToCheck.replace(SCRIPT_REGEX, '');
+    }
+    console.log(stringToCheck);
+    return stringToCheck;    
   }
 }
 
