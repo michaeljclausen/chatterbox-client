@@ -68,7 +68,6 @@ class App {
           });
           
           let addNewRoom = '<option value="addNewRoom">Add New Room</option>';
-          $('#roomSelect').append(addNewRoom);
           // if room select equals add new room
           if ($('#roomSelect')[0].value === 'addNewRoom') {
             // change text of add message button
@@ -76,12 +75,16 @@ class App {
           }
           
           for (let room in rooms) {
-            let cleanedRoom = this.escapeString(room);
-            $('#roomSelect').append($('<option>', {
-              value: cleanedRoom,
-              text: cleanedRoom
-            }));
+            if (room !== '') {
+              let cleanedRoom = this.escapeString(room);
+              $('#roomSelect').append($('<option>', {
+                value: cleanedRoom,
+                text: cleanedRoom
+              }));
+            }
           }
+          $('#roomSelect').append(addNewRoom);
+          this.renderRoom($('#roomSelect').val());
         }
         
         
