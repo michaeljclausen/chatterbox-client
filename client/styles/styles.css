@@ -5,6 +5,17 @@ body {
     font-family: arial, sans-serif;
 }
 
+h1 {
+    font: bold italic 50px system-ui;
+    text-align: left;
+}
+
+button {
+    width: 100px;
+    height: 27px;
+    border-radius: 10px;
+}
+
 .username {
     padding: 5px 15px;
     background-color: papayawhip;
@@ -60,6 +71,14 @@ body {
     font-size: 12px;
     color: green;
     line-height: 13px;
+}
+
+#main {
+    background-color: rgba(0,255,255, 0.10);
+}
+
+#messageInput, #main, #chats {
+    border-radius: 10px;
 }
 
 form {

@@ -1,6 +1,7 @@
 class App {
   constructor() {
     this.init();
+    this.friends = {};
   }
   init() { 
     this.fetch();
@@ -12,8 +13,14 @@ class App {
     //console.log(message);
     let cleanedUser = this.escapeString(message.username);
     let cleanedText = this.escapeString(message.text);
-    $('#chats').append(`<div class='username'>${cleanedUser}:</div>`);
-    $('#chats').append(`<div class='text'>${cleanedText}</div>`);
+    if (this.friends.hasOwnProperty(message.username)) {
+      $('#chats').append(`<div class='username friend'>${cleanedUser}</div>`);
+      $('#chats').append(`<div class='text'>${cleanedText}</div>`);
+    } else {
+      $('#chats').append(`<div class='username'>${cleanedUser}</div>`);
+      $('#chats').append(`<div class='text'>${cleanedText}</div>`);
+    }
+  
   }
   renderRoom(room) {
     this.clearMessages();
@@ -110,6 +117,10 @@ class App {
     }
     console.log(stringToCheck);
     return stringToCheck;    
+  }
+  addFriend(friendUserName) {
+    this.friends[friendUserName] = true;
+    this.renderRoom();
   }
 }
 
