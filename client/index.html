@@ -25,9 +25,25 @@
     <script>
       $(document).ready(function() {
         $('#addMessage').click(function() {
-          var urlParams = new URLSearchParams(window.location.search);
-          app.sendMessage(urlParams.get('username'), $('#roomSelect')[0].value, $('#messageInput')[0].value);
+          //debugger
+          if ($('#addMessage').text() === 'Add New Room') {
+            let newCleanRoom = app.escapeString($('#messageInput')[0].value);
+            if (newCleanRoom !== '') {
+              $('#roomSelect').append($('<option>', {
+                value: newCleanRoom,
+                text: newCleanRoom,
+                selected: 'selected'
+              }));
+              $('#addMessage').text('Send Message');
+              $('#messageInput').val('');  
+            }
+          } else {
+            var urlParams = new URLSearchParams(window.location.search);
+            app.sendMessage(urlParams.get('username'), $('#roomSelect')[0].value, $('#messageInput')[0].value);
+          }
+          
         }); 
+        
         $('#roomSelect').change(function() {
           app.renderRoom($('#roomSelect')[0].value);
         });
