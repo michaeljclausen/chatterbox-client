@@ -22,14 +22,29 @@
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#addMessage').click(function() {
+          var urlParams = new URLSearchParams(window.location.search);
+          app.sendMessage(urlParams.get('username'), $('#roomSelect')[0].value, $('#messageInput')[0].value);
+        }); 
+        $('#roomSelect').change(function() {
+          app.renderRoom($('#roomSelect')[0].value);
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <form action="" method="get">
-        <label for="GET-name">Room:</label>
-        <select id="roomSelect" name="">
+      <form>
+        <label>Room:</label>
+        <select id="roomSelect">
         </select>
+      </form>
+      <form>
+        <input id="messageInput" type="text">
+        <button type="button" id="addMessage">Add Message</button>
       </form>
     </div>
     <div id="chats"></div>
