@@ -25,9 +25,8 @@
     <script>
       $(document).ready(function() {
         $('#addMessage').click(function() {
-          //debugger
           if ($('#addMessage').text() === 'Add New Room') {
-            let newCleanRoom = app.escapeString($('#messageInput')[0].value);
+            let newCleanRoom = app.escapeString($('#messageInput').val());
             if (newCleanRoom !== '') {
               $('#roomSelect').append($('<option>', {
                 value: newCleanRoom,
@@ -39,13 +38,23 @@
             }
           } else {
             var urlParams = new URLSearchParams(window.location.search);
-            app.sendMessage(urlParams.get('username'), $('#roomSelect')[0].value, $('#messageInput')[0].value);
+            app.sendMessage(urlParams.get('username'), $('#roomSelect').val(), $('#messageInput').val());
           }
-          
+          // clear text input
+          $('#messageInput').val('');
         }); 
         
         $('#roomSelect').change(function() {
-          app.renderRoom($('#roomSelect')[0].value);
+          // check for changing add new room
+          //debugger
+          if ($('#roomSelect').val() === 'addNewRoom') {
+            $('#addMessage').text('Add New Room');
+          } else {
+            // else render selected room
+            $('#addMessage').text('Send Message');
+            app.renderRoom($('#roomSelect').val());
+          }
+          app.clearMessages();
         });
       });
     </script>
